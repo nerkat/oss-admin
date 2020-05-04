@@ -1,15 +1,13 @@
-import { Component } from '@angular/core';
-import { LocalDataSource } from 'ng2-smart-table';
-
-import { SmartTableData } from '../../../@core/data/smart-table';
+import { Component } from "@angular/core";
+import { LocalDataSource } from "ng2-smart-table";
+import { HttpHeaders, HttpClient } from "@angular/common/http";
 
 @Component({
-  selector: 'ngx-smart-table',
-  templateUrl: './smart-table.component.html',
-  styleUrls: ['./smart-table.component.scss'],
+  selector: "ngx-smart-table",
+  templateUrl: "./smart-table.component.html",
+  styleUrls: ["./smart-table.component.scss"],
 })
 export class SmartTableComponent {
-
   settings = {
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -26,42 +24,53 @@ export class SmartTableComponent {
       confirmDelete: true,
     },
     columns: {
-      id: {
-        title: 'ID',
-        type: 'number',
+      store_client_id: {
+        title: "ID",
+        type: "number",
       },
-      firstName: {
-        title: 'First Name',
-        type: 'string',
+      domain: {
+        title: "Domain",
+        type: "string",
       },
-      lastName: {
-        title: 'Last Name',
-        type: 'string',
-      },
-      username: {
-        title: 'Username',
-        type: 'string',
+      shop_owner: {
+        title: "Owner",
+        type: "string",
       },
       email: {
-        title: 'E-mail',
-        type: 'string',
-      },
-      age: {
-        title: 'Age',
-        type: 'number',
+        title: "Email",
+        type: "string",
       },
     },
   };
 
+  loading: boolean = true;
   source: LocalDataSource = new LocalDataSource();
 
-  constructor(private service: SmartTableData) {
-    const data = this.service.getData();
-    this.source.load(data);
+  constructor(private httpClient: HttpClient) {
+
+    let url =
+      "https://app.osswebapps.com/oss/web_api/api.php?method_name=get_all_user";
+
+    let body = {};
+
+    let httpHeaders = new HttpHeaders({
+      "Content-Type": "application/json",
+      username: "ossadmin",
+      password: "ossadmin@2020",
+    });
+
+    let options = {
+      headers: httpHeaders,
+    };
+
+    this.httpClient.post(url, body, options).subscribe((data) => {
+      this.source.load(data['data']);
+      this.loading = false;
+    });
   }
 
   onDeleteConfirm(event): void {
-    if (window.confirm('Are you sure you want to delete?')) {
+    if (window.confirm("Are you sure you want to delete?")) {
       event.confirm.resolve();
     } else {
       event.confirm.reject();
