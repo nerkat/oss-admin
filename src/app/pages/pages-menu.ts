@@ -6,6 +6,12 @@ export const MENU_ITEMS: NbMenuItem[] = [
     icon: 'shopping-cart-outline',
     link: '/pages/oss-dashboard',
     home: true,
+  },
+  {
+    title: 'MARKETING',
+    icon: 'shopping-cart-outline',
+    link: '/pages/oss-dashboard',
+    home: true,
   }
   
   // ,
