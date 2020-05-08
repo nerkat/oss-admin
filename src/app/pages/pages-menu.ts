@@ -8,7 +8,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
     home: true,
   },
   {
-    title: 'MARKETING',
+    title: 'Marketing',
     icon: 'shopping-cart-outline',
     link: '/pages/oss-dashboard',
     home: true,

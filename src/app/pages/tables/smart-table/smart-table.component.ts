@@ -1,8 +1,41 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { LocalDataSource } from "ng2-smart-table";
 import { HttpHeaders, HttpClient } from "@angular/common/http";
 import { NbDialogService } from "@nebular/theme";
-import { UserViewDialogComponent } from './user-view-dialog/user-view-dialog.component';
+import { UserViewDialogComponent } from "./user-view-dialog/user-view-dialog.component";
+
+@Component({
+  selector: "view-domain",
+  template: `
+    <a target="_blank" href="http://www.{{ value }}">
+      {{ value }}
+    </a>
+  `,
+  styles: [],
+})
+export class DomainViewComponent implements OnInit {
+  public value;
+  constructor() {}
+  ngOnInit() {}
+}
+
+@Component({
+  selector: "view-base",
+  template: ` <div (click)="onCellClick()">{{ value.cell }}</div> `,
+  styles: [],
+})
+export class BaseViewComponent implements OnInit {
+  public value;
+  constructor(private dialogService: NbDialogService) {}
+  ngOnInit() {}
+  onCellClick() {
+    this.dialogService.open(UserViewDialogComponent, {
+      context: {
+        userData: this.value.row,
+      },
+    });
+  }
+}
 
 @Component({
   selector: "ngx-smart-table",
@@ -11,43 +44,57 @@ import { UserViewDialogComponent } from './user-view-dialog/user-view-dialog.com
 })
 export class SmartTableComponent {
   settings = {
-    actions: { position: "right", edit: false, add: false },
-     delete: {
-      deleteButtonContent: '<i class="fa fa-eye"></i>',
-      confirmDelete: true,
-    },
+    actions: { edit: false, add: false, delete: false },
+    selectMode: "multi",
     columns: {
       store_client_id: {
         title: "ID",
-        type: "number",
+        type: "custom",
+        valuePrepareFunction: (cell, row) => {
+          return { cell, row };
+        },
+        renderComponent: BaseViewComponent,
       },
       domain: {
         title: "Domain",
-        type: "string",
+        type: "custom",
+        valuePrepareFunction: (cell, row) => cell,
+        renderComponent: DomainViewComponent,
       },
       shop_owner: {
         title: "Owner",
-        type: "string",
+        type: "custom",
+        valuePrepareFunction: (cell, row) => {
+          return { cell, row };
+        },
+        renderComponent: BaseViewComponent,
       },
       email: {
         title: "Email",
-        type: "string",
+        type: "custom",
+        valuePrepareFunction: (cell, row) => {
+          return { cell, row };
+        },
+        renderComponent: BaseViewComponent,
       },
       app_status: {
         title: "Status",
-        type: "number",
+        type: "custom",
+        valuePrepareFunction: (cell, row) => {
+          return { cell, row };
+        },
+        renderComponent: BaseViewComponent,
         sortDirection: "desc",
       },
     },
   };
 
   loading: boolean = true;
+  showActionButon: boolean = false;
   source: LocalDataSource = new LocalDataSource();
+  selectedRows;
 
-  constructor(
-    private httpClient: HttpClient,
-    private dialogService: NbDialogService
-  ) {
+  constructor(private httpClient: HttpClient) {
     let url =
       "https://app.osswebapps.com/oss/web_api/api.php?method_name=get_all_user";
 
@@ -69,11 +116,12 @@ export class SmartTableComponent {
     });
   }
 
-  onDeleteConfirm(event): void {
-    this.dialogService.open(UserViewDialogComponent, {
-      context: {
-        userData: event.data,
-      },
-    });
+  onRowSelect(event) {
+    this.selectedRows = event.selected;
+    if (event.selected.length > 0) {
+      this.showActionButon = true;
+    } else {
+      this.showActionButon = false;
+    }
   }
 }

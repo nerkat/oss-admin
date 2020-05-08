@@ -14,7 +14,6 @@ export class UserViewDialogComponent implements OnInit {
   ) {}
   @Input() userData: any;
   widgetData: any;
-
   ngOnInit(): void {
     let url =
       "https://app.osswebapps.com/oss/web_api/api.php?method_name=get_conversion&id=" +

@@ -9,6 +9,7 @@ export class UserService extends UserData {
 
   private users = {
     nick: { name: 'Nick Jones', picture: 'assets/images/nick.png' },
+    chen: { name: 'Chen Zissu', picture: 'assets/images/chen.JPG' },
     eva: { name: 'Eva Moor', picture: 'assets/images/eva.png' },
     jack: { name: 'Jack Williams', picture: 'assets/images/jack.png' },
     lee: { name: 'Lee Wong', picture: 'assets/images/lee.png' },
