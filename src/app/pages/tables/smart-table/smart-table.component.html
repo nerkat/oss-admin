@@ -2,7 +2,21 @@
   <nb-card-header>
     Users
     <div [hidden]="!showActionButon">
-      <button nbButton>Actions</button>
+      <button nbButton nbPopoverTrigger="click" [nbPopover]="actionsMenu" nbPopoverPlacement="bottom">Actions</button>
+    
+      <ng-template #actionsMenu>
+        <nb-list class="d-flex flex-column actionsMenu">
+          <nb-list-item>
+            Extend trial
+          </nb-list-item>
+          <nb-list-item>
+            Send gift
+          </nb-list-item>
+          <nb-list-item>
+            Blow up house
+          </nb-list-item>
+        </nb-list>
+      </ng-template>
     </div>
   </nb-card-header>
 

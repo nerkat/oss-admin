@@ -9,6 +9,7 @@ import {
   NbUserModule,
   NbContextMenuModule,
   NbButtonModule,
+  NbCardModule,
   NbSelectModule,
   NbIconModule,
   NbThemeModule,
@@ -40,6 +41,7 @@ import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
 
 const NB_MODULES = [
+  NbCardModule,
   NbLayoutModule,
   NbMenuModule,
   NbUserModule,

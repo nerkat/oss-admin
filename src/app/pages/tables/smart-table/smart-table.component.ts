@@ -43,6 +43,12 @@ export class BaseViewComponent implements OnInit {
   styleUrls: ["./smart-table.component.scss"],
 })
 export class SmartTableComponent {
+
+  actionsItems = [
+    { title: 'Extand Trial' },
+    { title: 'Send Gift' },
+  ];
+
   settings = {
     actions: { edit: false, add: false, delete: false },
     selectMode: "multi",

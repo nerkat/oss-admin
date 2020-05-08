@@ -38,3 +38,9 @@
   display: flex !important;
   justify-content: space-between !important;
 }
+
+/deep/.actionsMenu{
+  nb-list-item{
+    cursor: pointer;
+  }
+}
